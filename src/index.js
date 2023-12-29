@@ -1,11 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import DBConnect from "./pgClient.mjs";
+import generatePDF from "./pdfGen.mjs";
 import "dotenv/config";
-import { v2 as cloudinary } from "cloudinary";
 
 const app = express();
-const PORT = 3000;
+const PORT = 8000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,25 +22,27 @@ app.post("/api/pod-event", async (req, res) => {
   } = req.body;
   try {
     await DBConnect.connect();
-    console.log(DBConnect);
-    const uploadResponse = await Promise.all([
-      cloudinary.uploader.upload(deliveryProof, {
-        folder: "delivery-proof",
-      }),
-      cloudinary.uploader.upload(signature, {
-        folder: "signatures",
-      }),
-    ]);
-    console.log(uploadResponse);
-    // await DBConnect.insertData(
-    //   podNo,
-    //   deliveryDate,
-    //   deliveryTime,
-    //   deliveryProof,
-    //   deliveryLocation,
-    //   receiverName,
-    //   signature
-    // );
+    await DBConnect.insertData(
+      podNo,
+      deliveryDate,
+      deliveryTime,
+      deliveryProof,
+      deliveryLocation,
+      receiverName,
+      signature
+    );
+    const data = {
+      podNumber: podNo,
+      name: `Instrumec proof of delivery- ${podNo}`,
+      deliveryDate,
+      deliveryTime,
+      deliveryDate,
+      deliveryLocation,
+      receiverName,
+      signature,
+      deliveryPicture: deliveryProof,
+    };
+    await generatePDF(data);
   } catch (err) {
     res.status(500).json({ message: err });
   }

@@ -20,13 +20,17 @@
       
       <div class="flex flex-col mt-10 gap-2">
         <h3 class="text-lg">
-            {{pod_details['date_of_delivery']}}
+          <b>Purchase order number: </b> {{podNumber}}
+        </h3>
+        
+        <h3 class="text-lg">
+            {{deliveryDate}}
         </h3>
         <h3 class="text-lg">
             Dear Customer,
         </h3>
         <h3 class="text-lg">
-          The following is a proof of delivery for order number: <b>{{pod_details['pod_number']}}</b>
+          The following is a proof of delivery for order number: <b>{{podNumber}}</b>
       </h3>
       </div>
       <div></div>
@@ -44,27 +48,27 @@
             <b>Status</b>
           </td>
           <td class="uppercase">
-            delivered
+            Delivered
           </td>
           <td class="py-6 font-bold">
             <b>Delivery location</b>
           </td>
           <td>
-            Some location
+            {{deliveryLocation}}
           </td>
         </tr>
         <tr>
           <td class="py-6 font-bold"> <b>Delivery Date</b></td>
-          <td>Date</td>
+          <td>{{deliveryDate}}</td>
           <td class="py-6 font-bold"><b>Delivery Time</b></td>
-          <td>11:20</td>
+          <td>{{deliveryTime}}</td>
         </tr>
         <tr>
           <td class="py-6 font-bold">
             <b>Received by</b>
           </td>
           <td>
-            {{pod_details['receiver_name']}}
+            {{receiverName}}
           </td>
           <td></td>
           <td></td>
@@ -74,7 +78,7 @@
             <b>Signature</b>
           </td>
           <td>
-            <img src="{{pod_details['receiver_signature']}}" alt="signature" class="w-1/2">
+            <img src="{{{signature}}}" alt="signature" class="w-1/2">
           </td>
           <td></td>
           <td></td>
@@ -87,8 +91,11 @@
           <b>Additional Information:</b>
         </h3>
         <h3 class="text-lg">
-          Please see the attached image for delivery picture.
+          Please see the image below for delivery picture.
         </h3>
+      </div>
+      <div class="mt-4">
+        <img src="{{{deliveryPicture}}}" alt="delivery picture" class="w-1/2">
       </div>
   </div>
 </body>

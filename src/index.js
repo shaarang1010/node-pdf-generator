@@ -48,7 +48,9 @@ app.post("/api/pod-event", async (req, res) => {
       message: `File ${generatedFileName} is generated!`,
     });
   } catch (err) {
-    res.status(500).json({ message: err });
+    res
+      .status(500)
+      .json({ message: "File not generated. Ran into errors, check logs" });
     console.log(err);
   }
 });

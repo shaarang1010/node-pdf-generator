@@ -1,30 +1,29 @@
 import puppeteer from "puppeteer";
 import path from "path";
 import handlebars from "handlebars";
+import fs from "fs";
 
 const generatePDF = async (data) => {
-  const templatePath = path.join(__dirname, "./templates");
+  const templatePath = path.join(process.cwd(), "./src/templates");
   const templateHtml = fs.readFileSync(
-    path.join(templatePath, "template.html"),
+    path.join(templatePath, "pod.html"),
     "utf8"
   );
   const template = handlebars.compile(templateHtml);
   const html = template(data);
 
-  var milis = new Date();
-  milis = milis.getTime();
+  const randomNum = Math.floor(Math.random() * 10);
 
-  const pdfPath = path.join(
-    __dirname,
-    "../generated/pdf/",
-    `${data.name}-${milis}.pdf`
-  );
+  const fileName = `${data.name}-${randomNum}.pdf`;
+
+  const pdfPath = path.join(process.cwd(), "./generated-pdfs/", fileName);
 
   const pdfOptions = {
     path: pdfPath,
   };
 
   const browser = await puppeteer.launch({
+    headless: "new",
     args: [
       "--disable-setuid-sandbox",
       "--no-sandbox",
@@ -45,6 +44,8 @@ const generatePDF = async (data) => {
 
   await page.pdf(pdfOptions);
   await browser.close();
+
+  return fileName;
 };
 
 export default generatePDF;

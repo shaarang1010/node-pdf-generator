@@ -24,7 +24,7 @@
         </h3>
         
         <h3 class="text-lg">
-            {{deliveryDate}}
+            <b>Date: </b>{{deliveryDate}}
         </h3>
         <h3 class="text-lg">
             Dear Customer,
@@ -86,6 +86,8 @@
         </tbody> 
         </table>  
     </div> 
+    </div>
+    
       <div class="mt-4 flex flex-row gap-4">
         <h3 class="text-lg font-bold" >
           <b>Additional Information:</b>
@@ -94,9 +96,9 @@
           Please see the image below for delivery picture.
         </h3>
       </div>
-      <div class="mt-4">
+      <div class="mt-4 flex flex-row">
         <img src="{{{deliveryPicture}}}" alt="delivery picture" class="w-1/2">
       </div>
-  </div>
+  
 </body>
 </html>

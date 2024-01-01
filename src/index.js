@@ -21,16 +21,16 @@ app.post("/api/pod-event", async (req, res) => {
     signature,
   } = req.body;
   try {
-    await DBConnect.connect();
-    await DBConnect.insertData(
-      podNo,
-      deliveryDate,
-      deliveryTime,
-      deliveryProof,
-      deliveryLocation,
-      receiverName,
-      signature
-    );
+    // await DBConnect.connect();
+    // await DBConnect.insertData(
+    //   podNo,
+    //   deliveryDate,
+    //   deliveryTime,
+    //   deliveryProof,
+    //   deliveryLocation,
+    //   receiverName,
+    //   signature
+    // );
     const data = {
       podNumber: podNo,
       name: `Instrumec proof of delivery- ${podNo}`,
@@ -42,9 +42,16 @@ app.post("/api/pod-event", async (req, res) => {
       signature,
       deliveryPicture: deliveryProof,
     };
-    await generatePDF(data);
+    const generatedFileName = await generatePDF(data);
+    res
+      .status(200)
+      .json({
+        message: "success",
+        message: `File ${generatedFileName} is generated!`,
+      });
   } catch (err) {
     res.status(500).json({ message: err });
+    console.log(err);
   }
 });
 

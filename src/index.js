@@ -36,7 +36,6 @@ app.post("/api/pod-event", async (req, res) => {
       name: `Instrumec proof of delivery- ${podNo}`,
       deliveryDate,
       deliveryTime,
-      deliveryDate,
       deliveryLocation,
       receiverName,
       signature,

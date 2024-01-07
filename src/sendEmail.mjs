@@ -28,3 +28,5 @@ const sendEmail = async (filename) => {
 
   console.log("Message sent: %s", info.messageId);
 };
+
+export default sendEmail;
